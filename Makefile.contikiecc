@@ -1,0 +1,44 @@
+#CPU_ARCH = THIRTYTWO_BIT_PROCESSOR
+#CPU = x86
+
+ifeq ($(TARGET),cooja)
+  CPU_ARCH = THIRTYTWO_BIT_PROCESSOR
+  CPU = x86
+endif
+
+ifeq ($(TARGET),micaz)
+  CPU_ARCH = EIGHT_BIT_PROCESSOR
+  CPU = avr
+endif
+
+ifeq ($(TARGET),sky)
+  CPU_ARCH = SIXTEEN_BIT_PROCESSOR
+  CPU = msp430
+endif
+
+ifeq ($(CPU),)
+  ${error The cpu specific does not exist.}
+endif
+
+ifeq ($(DOMIAN_PARAMS),)
+  DOMIAN_PARAMS = SECP160R1
+endif
+
+DEFINES += $(CPU_ARCH) $(DOMIAN_PARAMS)
+
+### Include main files
+include $(CONTIKI_ECC_DIR)/ecc/Makefile.ecc
+
+### Include target cpu architecture makefile
+target_cpu_makefile := $(wildcard $(CONTIKI_ECC_DIR)/cpu/$(CPU)/Makefile.$(CPU))
+
+### Check if the target makefile exists
+ifeq ($(strip $(target_cpu_makefile)),)
+  ${error The cpu specific makefile does not exist.}
+else
+
+  include $(CONTIKI_ECC_DIR)/cpu/$(CPU)/Makefile.$(CPU)
+endif
+
+PROJECT_SOURCEFILES += $(CONTIKI_ECC_SOURCEFILES)
+PROJECTDIRS += $(CONTIKI_ECC_DIR) $(CONTIKI_ECC_DIR)/ecc $(CONTIKI_ECC_DIR)/cpu/$(CPU)

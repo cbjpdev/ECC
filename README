@@ -1,0 +1,17 @@
+     - Run Cooja as follows
+       # cd <Contiki Dir>/tools/cooja
+       # ant run
+
+     - Create a new Simulation. 
+       File -> New Simulation
+    
+     - Create a node with Alice's application
+       Mote Types -> Create Mote Type -> Cooja Mote Type
+
+     - Select the source for mote, compile and create 10 nodes.
+ 
+     - click on node 4, then node 7
+     
+
+
+     

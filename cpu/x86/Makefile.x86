@@ -1,0 +1,1 @@
+CONTIKI_ECC_SOURCEFILES += nn.c secp160r1.c
